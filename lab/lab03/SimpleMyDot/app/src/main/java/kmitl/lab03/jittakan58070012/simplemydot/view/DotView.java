@@ -8,25 +8,40 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import kmitl.lab03.jittakan58070012.simplemydot.model.Dot;
 
 
 public class DotView extends View {
+
     private Paint paint;
     private Dot dot;
+    private LinkedList<Dot> keepDot = new LinkedList<>();
 
     public void setDot(Dot dot) {
         this.dot = dot;
     }
 
+    public LinkedList<Dot> getKeepDot() {
+        return keepDot;
+    }
+
+    public void clearDot(){
+        dot = null;
+        keepDot.clear();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-
         super.onDraw(canvas);
-        if (dot != null){
-            paint.setColor(Color.RED);
-            canvas.drawCircle(dot.getCenterX(), dot.getCenterY(), dot.getRadius(), paint);
-
+        keepDot.add(dot);
+        for (Dot point: keepDot) {
+            if (point != null) {
+                paint.setARGB(150,point.getIntR(), point.getIntG(), point.getIntB());
+                canvas.drawCircle(point.getCenterX(), point.getCenterY(), point.getRadius(), paint);
+            }
         }
 
     }
@@ -45,11 +60,6 @@ public class DotView extends View {
 
     public DotView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        paint = new Paint();
-    }
-
-    public DotView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         paint = new Paint();
     }
 }
