@@ -1,5 +1,7 @@
 package kmitl.lab03.jittakan58070012.simplemydot;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -13,19 +15,48 @@ import kmitl.lab03.jittakan58070012.simplemydot.view.DotView;
 
 import static kmitl.lab03.jittakan58070012.simplemydot.R.id.dotView;
 import static kmitl.lab03.jittakan58070012.simplemydot.R.layout.activity_main;
+import static kmitl.lab03.jittakan58070012.simplemydot.R.layout.activity_second;
 
 public class MainActivity extends AppCompatActivity implements Dot.OnDotChangeListener, View.OnClickListener{
 
     private Dot dot;
     private DotView dotview;
     Button clearbutton;
-
+    Button chnButton;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
         clearbutton = (Button) findViewById(R.id.button2);
         clearbutton.setOnClickListener(this);
+
+        ///////////////////////////////////////////////////////////////
+        final DotSerializable dotSerializable = new DotSerializable();
+        final DotParcelable dotparcelable = new DotParcelable(150,150,50);
+        dotSerializable.setCenterX(150);
+        dotSerializable.setCenterY(150);
+        dotSerializable.setRadius(50);
+        dotSerializable.setColor("red");
+
+        chnButton = (Button) findViewById(R.id.opnAct);
+        chnButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(MainActivity.this, SecondActivity.class);
+
+                intent.putExtra("xValue",30);
+
+                intent.putExtra("dotserializable", dotSerializable);
+
+                intent.putExtra("dotparceleble", dotparcelable);
+
+                startActivity(intent);
+            }
+        });
+
+        ///////////////////////////////////////////////////////////////
+
         dotview = (DotView) findViewById(R.id.dotView);
     }
 
