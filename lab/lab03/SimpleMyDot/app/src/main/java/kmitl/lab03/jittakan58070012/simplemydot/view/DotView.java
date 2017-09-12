@@ -12,33 +12,23 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import kmitl.lab03.jittakan58070012.simplemydot.model.Dot;
+import kmitl.lab03.jittakan58070012.simplemydot.model.Dots;
 
 
 public class DotView extends View {
 
     private Paint paint;
-    private Dot dot;
-    private LinkedList<Dot> keepDot = new LinkedList<>();
+    private Dots dots;
 
-    public void setDot(Dot dot) {
-        this.dot = dot;
-    }
-
-    public LinkedList<Dot> getKeepDot() {
-        return keepDot;
-    }
-
-    public void clearDot(){
-        dot = null;
-        keepDot.clear();
+    public void setDots(Dots dots) {
+        this.dots = dots;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        keepDot.add(dot);
-        for (Dot point: keepDot) {
-            if (point != null) {
+        if (this.dots != null) {
+            for (Dot point: dots.getKeepDot()) {
                 paint.setARGB(150,point.getIntR(), point.getIntG(), point.getIntB());
                 canvas.drawCircle(point.getCenterX(), point.getCenterY(), point.getRadius(), paint);
             }

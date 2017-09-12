@@ -19,6 +19,15 @@ public class Dot {
 
     }
 
+    public Dot(int centerX, int centerY, int radius, int intR, int intG, int intB) {
+        this.centerX = centerX;
+        this.centerY = centerY;
+        this.radius = radius;
+        this.intR = intR;
+        this.intG = intG;
+        this.intB = intB;
+    }
+
     public Dot(OnDotChangeListener listener,int centerX, int centerY, int radius) {
         this.centerX = centerX;
         this.centerY = centerY;
