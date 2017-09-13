@@ -9,23 +9,29 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
+import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -39,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements Dots.OnDotsChange
     private Dots dots;
     private DotView dotview;
     private ShareActionProvider myShareActionProvider;
+    private int newintR = 200;
+    private int newintG = 200;
+    private int newintB = 200;
+    private int intR;
+    private int intG;
+    private int intB;
     Button clearbutton;
     View view1;
 
@@ -142,22 +154,61 @@ public class MainActivity extends AppCompatActivity implements Dots.OnDotsChange
             CenterX = CenterX - Coordinate[0];
             CenterY = CenterY - Coordinate[1];
 
+            final String[] array = {"Delete","Edit"};
+
             if (dots.getKeepDot() != null){
-                for(Dot point: dots.getKeepDot()) {
+
+                for(final Dot point: dots.getKeepDot()) {
+
                     if (dotRangeCheck(point, CenterX, CenterY)) {
-                        dots.deleteDot(point);
                         check = false;
+                        final ColorPicker cp = new ColorPicker(MainActivity.this, newintR, newintG, newintB);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Pick a color");
+                        builder.setItems(array, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // the user clicked on colors[which]
+                                if(which == 0){
+                                    dots.deleteDot(point);
+
+                                }else if(which ==1 ){
+
+
+                                    cp.show();
+
+                                    cp.setCallback(new ColorPickerCallback() {
+                                        @Override
+                                        public void onColorChosen(@ColorInt int color) {
+                                            // Do whatever you want
+                                            // Examples
+                                            point.setIntR(cp.getRed());
+                                            point.setIntG(cp.getGreen());
+                                            point.setIntB(cp.getBlue());
+                                            cp.dismiss();
+
+                                                dots.changeColor();
+
+                                        }
+                                    });
+                                }
+                            }
+
+                        });
+                        builder.show();
+
                         break;
                     }
+
                 }
             }
 
             if (check){
                 Random random = new Random();
 
-                int intR = random.nextInt(255);
-                int intG = random.nextInt(255);
-                int intB = random.nextInt(255);
+                intR = random.nextInt(255);
+                intG = random.nextInt(255);
+                intB = random.nextInt(255);
 
                 Dot dot = new Dot(CenterX, CenterY, 50, intR, intG, intB);
                 dots.addDot(dot);
@@ -171,9 +222,9 @@ public class MainActivity extends AppCompatActivity implements Dots.OnDotsChange
         Random random = new Random();
         int CenterX = random.nextInt(this.dotview.getWidth());
         int CenterY = random.nextInt(this.dotview.getHeight());
-        int intR = random.nextInt(255);
-        int intG = random.nextInt(255);
-        int intB = random.nextInt(255);
+        intR = random.nextInt(255);
+        intG = random.nextInt(255);
+        intB = random.nextInt(255);
 
         dots.addDot(new Dot(CenterX, CenterY, 50, intR, intG, intB));
     }

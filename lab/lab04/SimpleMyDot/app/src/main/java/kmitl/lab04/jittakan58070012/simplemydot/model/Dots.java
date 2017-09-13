@@ -41,6 +41,11 @@ public class Dots {
         this.listener.onDotsChange(this);
     }
 
+    public void changeColor(){
+            this.listener.onDotsChange(this);
+
+    }
+
 
 
     public void setListener(OnDotsChangeListener listener) {
