@@ -10,8 +10,17 @@ public class Dots {
     public Dots() {
     }
 
+    public void removeLastDot() {
+        if(keepDot.isEmpty()){
+            this.listener.onDotsChange(this);
+        }else{
+            this.keepDot.remove(keepDot.getLast());
+            this.listener.onDotsChange(this);
+        }
+    }
+
     public interface OnDotsChangeListener{
-        void onDotsChange(Dots dots);
+        void onDotsChange(kmitl.lab04.jittakan58070012.simplemydot.model.Dots dots);
     }
 
     public void clearDot(){
@@ -31,6 +40,8 @@ public class Dots {
         this.keepDot.remove(dot);
         this.listener.onDotsChange(this);
     }
+
+
 
     public void setListener(OnDotsChangeListener listener) {
         this.listener = listener;

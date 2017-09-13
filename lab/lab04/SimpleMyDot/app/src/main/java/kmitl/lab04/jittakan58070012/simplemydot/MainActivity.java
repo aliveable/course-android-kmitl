@@ -1,18 +1,21 @@
 package kmitl.lab04.jittakan58070012.simplemydot;
 
 import android.Manifest;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,8 +23,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+
+
 import java.io.ByteArrayOutputStream;
+import java.util.LinkedList;
 import java.util.Random;
+
 import kmitl.lab04.jittakan58070012.simplemydot.model.Dot;
 import kmitl.lab04.jittakan58070012.simplemydot.model.Dots;
 import kmitl.lab04.jittakan58070012.simplemydot.view.DotView;
@@ -47,12 +54,28 @@ public class MainActivity extends AppCompatActivity implements Dots.OnDotsChange
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_item_share2:
                 this.onShareClick();
+                return super.onOptionsItemSelected(item);
+            case R.id.undo:
+                if(dots.getKeepDot().isEmpty()){
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage("Nothing to Undo");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+
+                }else{
+                    this.dots.removeLastDot();
+                }
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SimpleMyDot</string>
+    <string name="undo">undo</string>
 </resources>
