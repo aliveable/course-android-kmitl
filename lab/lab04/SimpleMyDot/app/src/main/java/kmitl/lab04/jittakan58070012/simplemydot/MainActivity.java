@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements Dots.OnDotsChange
 
                     if (dotRangeCheck(point, CenterX, CenterY)) {
                         check = false;
-                        final ColorPicker cp = new ColorPicker(MainActivity.this, newintR, newintG, newintB);
+                        final ColorPicker cp = new ColorPicker(MainActivity.this, point.getIntR(), point.getIntG(), point.getIntB());
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setTitle("Pick a color");
                         builder.setItems(array, new DialogInterface.OnClickListener() {
