@@ -2,6 +2,7 @@ package kmitl.lab04.jittakan58070012.simplemydot;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
@@ -189,6 +191,11 @@ public class MainFragment extends Fragment implements Dots.OnDotsChangeListener,
                     }else if (which == 3){
 //
 
+                        CharSequence text = "Click to select New Dot";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(getActivity(), text, duration);
+                        toast.show();
                         check = 1;
                         saveposx = Dotx;
                         saveposy = Doty;
