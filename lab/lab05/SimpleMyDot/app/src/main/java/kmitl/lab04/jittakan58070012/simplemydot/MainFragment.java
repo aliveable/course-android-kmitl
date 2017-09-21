@@ -7,7 +7,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,18 +48,17 @@ public class MainFragment extends Fragment implements Dots.OnDotsChangeListener,
     private DotView dotview;
     private View rootView;
     private View view;
-    private SeekBar seek;
-    private SeekBar seek2;
-    private AlertDialog.Builder popDialog;
     private int intR;
     private int intG;
     private int intB;
-    int saveposx = 0;
-    int saveposy = 0;
-    private ViewGroup viewgroup;
-    private String m_Text = "";
-    int check = 0;
-    int check2 = 0;
+    static int saveposx = 0;
+    static int saveposy = 0;
+    static int Dotx = 0;
+    static int Doty = 0;
+
+    static int check = 0;
+    static int check2 = 0;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -88,6 +90,7 @@ public class MainFragment extends Fragment implements Dots.OnDotsChangeListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         this.rootView = inflater.inflate(R.layout.fragment_main, container,false);
         this.view = inflater.inflate(R.layout.slidebar, container, Boolean.parseBoolean(null));
         initView(rootView);
@@ -95,7 +98,7 @@ public class MainFragment extends Fragment implements Dots.OnDotsChangeListener,
         dots.setListener(this);
         //viewgroup = container;
 
-        container.removeView(this.view);
+        //container.removeView(this.view);
         return rootView;
     }
 
@@ -105,13 +108,19 @@ public class MainFragment extends Fragment implements Dots.OnDotsChangeListener,
         dotview.invalidate();
     }
 
+    void showDialog(Dot dot,Dots dots) {
+
+
+        DialogFragment newFragment = AlertFragment.newInstance(dot, dots);
+        newFragment.show(getFragmentManager(), "dialog");
+    }
 
     @Override
-    public void onDotViewPressed(int x, int y) {
-        final int Dotx = x;
-        final int Doty = y;
+    public void onDotViewPressed(int x, int y){
+        Dotx = x;
+        Doty = y;
 
-        if(dots.searchDot(x,y) == null && check == 0 ){
+        if (dots.searchDot(x, y) == null && check == 0) {
             Random random = new Random();
 
             intR = random.nextInt(255);
@@ -120,101 +129,20 @@ public class MainFragment extends Fragment implements Dots.OnDotsChangeListener,
 
             dots.addDot(new Dot(x, y, 50, intR, intG, intB));
 
-        }else if (dots.searchDot(x,y) == null && check == 1 && check2 == 1 ){
+        } else if (dots.searchDot(x, y) == null && check == 1 && check2 == 1) {
             dots.changedot(Dotx, Doty, saveposx, saveposy);
-            check=0;
-            check2=0;
-        } else{
-            final String[] array = {"Delete","EditColor", "EditSize","EditCenter"};
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Select Options");
-            builder.setItems(array, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // the user clicked on colors[which]
-                    if (which == 1){
-                        final ColorPicker cp = new ColorPicker(getActivity(), dots.searchDot(Dotx, Doty).getIntR(), dots.searchDot(Dotx, Doty).getIntG(), dots.searchDot(Dotx, Doty).getIntB());
-                        cp.show();
-                        cp.setCallback(new ColorPickerCallback() {
-                            @Override
-                            public void onColorChosen(@ColorInt int color) {
-                                // Do whatever you want
-                                // Examples
-                                dots.searchDot(Dotx, Doty).setIntR(cp.getRed());
-                                dots.searchDot(Dotx, Doty).setIntG(cp.getGreen());
-                                dots.searchDot(Dotx, Doty).setIntB(cp.getBlue());
-                                dots.changeColor();
-                                cp.dismiss();
+            check = 0;
+            check2 = 0;
+        }
 
-                            }
-                        });
-
-
-                    }else if(which == 2){
-                        final AlertDialog.Builder popDialog = new AlertDialog.Builder(getActivity());
-                        final SeekBar seek = new SeekBar(getActivity());
-                        seek.setMax(255);
-                        seek.setKeyProgressIncrement(1);
-
-                        popDialog.setTitle("Change Radius");
-                        popDialog.setView(seek);
-                        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                                dots.searchDot(Dotx, Doty).setRadius(progress);
-
-
-                            }
-
-                            @Override
-                            public void onStartTrackingTouch(SeekBar seekBar) {
-
-                            }
-
-                            @Override
-                            public void onStopTrackingTouch(SeekBar seekBar) {
-
-
-                            }
-                        });
-
-                        popDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-                                dots.changeColor();
-                                dialog.dismiss();
-
-                            }
-                        });
-
-                    popDialog.show();
-                    }else if (which == 3){
-//
-
-                        CharSequence text = "Click to select New Dot";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(getActivity(), text, duration);
-                        toast.show();
-                        check = 1;
-                        saveposx = Dotx;
-                        saveposy = Doty;
-
-                        if(check2 == 0){
-
-                            check2 =1;
-                        }
-
-
-                    }else{
-                        dots.getKeepDot().remove(dots.searchDot(Dotx,Doty));
-                        dots.changeColor();
-                    }
-                }
-
-            });builder.show();
+    }
+    @Override
+    public void onDotViewLongPressed(int x, int y) {
+        if (dots.searchDot(x, y) != null) {
+            showDialog(dots.searchDot(x, y), dots);
         }
     }
+
 
     @Override
     public void onClick(View view) {

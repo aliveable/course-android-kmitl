@@ -1,6 +1,9 @@
 package kmitl.lab04.jittakan58070012.simplemydot.model;
 
-public class Dot {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Dot implements Parcelable{
     private int centerX;
     private int centerY;
     private int radius;
@@ -46,6 +49,27 @@ public class Dot {
         this.listener = listener;
         this.listener.onDotChanged(this);
     }
+
+    protected Dot(Parcel in) {
+        centerX = in.readInt();
+        centerY = in.readInt();
+        radius = in.readInt();
+        intR = in.readInt();
+        intG = in.readInt();
+        intB = in.readInt();
+    }
+
+    public static final Creator<Dot> CREATOR = new Creator<Dot>() {
+        @Override
+        public Dot createFromParcel(Parcel in) {
+            return new Dot(in);
+        }
+
+        @Override
+        public Dot[] newArray(int size) {
+            return new Dot[size];
+        }
+    };
 
     public void setListener(OnDotChangeListener listener) {
         this.listener = listener;
@@ -99,6 +123,21 @@ public class Dot {
 
     public int getRadius() {
         return radius;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(centerX);
+        parcel.writeInt(centerY);
+        parcel.writeInt(radius);
+        parcel.writeInt(intR);
+        parcel.writeInt(intG);
+        parcel.writeInt(intB);
     }
 
     public interface OnDotChangeListener{

@@ -1,14 +1,32 @@
 package kmitl.lab04.jittakan58070012.simplemydot.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.LinkedList;
 
-public class Dots {
+public class Dots implements Parcelable{
 
     private OnDotsChangeListener listener;
     private LinkedList<Dot> keepDot = new LinkedList<>();
 
     public Dots() {
     }
+
+    protected Dots(Parcel in) {
+    }
+
+    public static final Creator<Dots> CREATOR = new Creator<Dots>() {
+        @Override
+        public Dots createFromParcel(Parcel in) {
+            return new Dots(in);
+        }
+
+        @Override
+        public Dots[] newArray(int size) {
+            return new Dots[size];
+        }
+    };
 
     public void removeLastDot() {
         if(keepDot.isEmpty()){
@@ -17,6 +35,15 @@ public class Dots {
             this.keepDot.remove(keepDot.getLast());
             this.listener.onDotsChange(this);
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
     }
 
     public interface OnDotsChangeListener{
