@@ -33,6 +33,7 @@ public class Dots {
 
     public void addDot(Dot dot){
         this.keepDot.add(dot);
+        System.out.print("sssss");
         this.listener.onDotsChange(this);
     }
 
