@@ -14,7 +14,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +38,12 @@ public class MainActivityTest {
 
     @Test
     public void mainActivityTest() {
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.editTExtName), isDisplayed()));
+        appCompatEditText.perform(replaceText("Ladarat"), closeSoftKeyboard());
+
+
+        SystemClock.sleep(5000);
 
     }
 }

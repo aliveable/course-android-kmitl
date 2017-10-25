@@ -48,34 +48,11 @@ public class gotolisttest {
     @Test
     public void checkposition1() {
 
-
         onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ying"), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ladarat"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Somkiat"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("80"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Prayoch"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("60"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
 
         onView(allOf(withId(R.id.buttonGotoList), withText("GO TO LIST"), isDisplayed())).perform(click());
 
@@ -83,41 +60,17 @@ public class gotolisttest {
 
         onView(withRecyclerView(R.id.list).atPosition(0)).check(matches(hasDescendant(withText("20"))));
 
-        onView(allOf(withId(R.id.CLbutton), withText("Clear List"), isDisplayed())).perform(click());
-
         SystemClock.sleep(1000);
     }
 
     @Test
     public void checkposition2() {
 
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ying"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
         onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ladarat"), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Somkiat"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("80"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Prayoch"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("60"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
 
         onView(allOf(withId(R.id.buttonGotoList), withText("GO TO LIST"), isDisplayed())).perform(click());
 
@@ -125,41 +78,16 @@ public class gotolisttest {
 
         onView(withRecyclerView(R.id.list).atPosition(1)).check(matches(hasDescendant(withText("20"))));
 
-        onView(allOf(withId(R.id.CLbutton), withText("Clear List"), isDisplayed())).perform(click());
-
         SystemClock.sleep(1000);
     }
-
     @Test
     public void checkposition3() {
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ying"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ladarat"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
 
         onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Somkiat"), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("80"), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Prayoch"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("60"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
 
         onView(allOf(withId(R.id.buttonGotoList), withText("GO TO LIST"), isDisplayed())).perform(click());
 
@@ -167,34 +95,11 @@ public class gotolisttest {
 
         onView(withRecyclerView(R.id.list).atPosition(2)).check(matches(hasDescendant(withText("80"))));
 
-        onView(allOf(withId(R.id.CLbutton), withText("Clear List"), isDisplayed())).perform(click());
-
         SystemClock.sleep(1000);
     }
 
     @Test
     public void checkposition4() {
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ying"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Ladarat"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("20"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
-
-        onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Somkiat"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.editTextAge), isDisplayed())).perform(replaceText("80"), closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
-
 
         onView(allOf(withId(R.id.editTExtName), isDisplayed())).perform(replaceText("Prayoch"), closeSoftKeyboard());
 
@@ -202,14 +107,11 @@ public class gotolisttest {
 
         onView(allOf(withId(R.id.buttonAdded), withText("ADDED"), isDisplayed())).perform(click());
 
-
         onView(allOf(withId(R.id.buttonGotoList), withText("GO TO LIST"), isDisplayed())).perform(click());
 
         onView(withRecyclerView(R.id.list).atPosition(3)).check(matches(hasDescendant(withText("Prayoch"))));
 
         onView(withRecyclerView(R.id.list).atPosition(3)).check(matches(hasDescendant(withText("60"))));
-
-        onView(allOf(withId(R.id.CLbutton), withText("Clear List"), isDisplayed())).perform(click());
 
         SystemClock.sleep(1000);
     }
