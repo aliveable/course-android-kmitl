@@ -24,6 +24,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,8 +100,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()) {
-
                     //UserProfile user = response.body();
+
                     display(response.body());
 
                 }
@@ -111,7 +112,9 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call<UserProfile> call, Throwable t) {
 
             }
+
         });
+
     }
 
     @Override
@@ -172,13 +175,11 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra("user", this.user)
                         .putExtra("viewOption", 0));
-                this.viewOption = 0;
                 break;
             case R.id.list_view:
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra("user", this.user)
                         .putExtra("viewOption", 1));
-                this.viewOption = 1;
                 break;
         }
         finish();
