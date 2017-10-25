@@ -1,7 +1,10 @@
 package com.project.demorecord;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.SystemClock;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -13,9 +16,12 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.File;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -29,6 +35,20 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class EnterNulltest {
+
+    @Before
+    public void start() {
+        Context context = InstrumentationRegistry.getTargetContext();
+
+        File root = InstrumentationRegistry.getTargetContext().getFilesDir().getParentFile();
+        String[] sharedPreferencesFileNames = new File(root, "shared_prefs").list();
+        for (String fileName : sharedPreferencesFileNames) {
+            InstrumentationRegistry.getTargetContext().getSharedPreferences(fileName.replace(".xml", ""), Context.MODE_PRIVATE).edit().clear().commit();
+        }
+
+        mActivityTestRule.launchActivity(new Intent());
+
+    }
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
