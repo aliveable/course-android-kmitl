@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class SecondActivity extends AppCompatActivity {
+public class
+SecondActivity extends AppCompatActivity {
 
     private Button bckButton;
     private Intent intent;

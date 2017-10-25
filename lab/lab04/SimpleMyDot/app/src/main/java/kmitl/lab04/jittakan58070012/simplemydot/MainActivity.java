@@ -12,9 +12,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.provider.Settings;
+
 import android.support.annotation.ColorInt;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,16 +35,18 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.zip.Inflater;
 
 import kmitl.lab04.jittakan58070012.simplemydot.model.Dot;
 import kmitl.lab04.jittakan58070012.simplemydot.model.Dots;
 import kmitl.lab04.jittakan58070012.simplemydot.view.DotView;
 
 
-public class MainActivity extends AppCompatActivity implements Dots.OnDotsChangeListener, View.OnClickListener{
+public class MainActivity extends AppCompatActivity  {
 
     private Dots dots;
     private DotView dotview;
+    private View fragview;
     private ShareActionProvider myShareActionProvider;
     private int newintR = 200;
     private int newintG = 200;
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements Dots.OnDotsChange
 
         MenuItem item = menu.findItem(R.id.menu_item_share2);
         myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -129,128 +133,39 @@ public class MainActivity extends AppCompatActivity implements Dots.OnDotsChange
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        clearbutton = (Button) findViewById(R.id.button2);
-        clearbutton.setOnClickListener(this);
-        dotview = (DotView) findViewById(R.id.dotView);
+        //clearbutton = (Button) findViewById(R.id.button2);
+        //clearbutton.setOnClickListener(this);
+        //dotview = (DotView) findViewById(R.id.FragContainer);
 
-        dots = new Dots();
-        dots.setListener(this);
+        FragmentManager fragmentmanager = getSupportFragmentManager();
+        fragmentmanager.beginTransaction().add(R.id.FragContainer, new ScreenFragment(),"dotview").commit();
+
+
     }
 
 
 
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        // you may need the x/y location
-        boolean check = true;
-        int Coordinate[] = new int[2];
-        dotview.getLocationOnScreen(Coordinate);
-        if(event.getAction() == MotionEvent.ACTION_UP){
-            int CenterX = (int) event.getX();
-            int CenterY = (int) event.getY();
-            CenterX = CenterX - Coordinate[0];
-            CenterY = CenterY - Coordinate[1];
-
-            final String[] array = {"Delete","Edit"};
-
-            if (dots.getKeepDot() != null){
-
-                for(final Dot point: dots.getKeepDot()) {
-
-                    if (dotRangeCheck(point, CenterX, CenterY)) {
-                        check = false;
-                        final ColorPicker cp = new ColorPicker(MainActivity.this, point.getIntR(), point.getIntG(), point.getIntB());
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("Pick a color");
-                        builder.setItems(array, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // the user clicked on colors[which]
-                                if(which == 0){
-                                    dots.deleteDot(point);
-
-                                }else if(which ==1 ){
 
 
-                                    cp.show();
-
-                                    cp.setCallback(new ColorPickerCallback() {
-                                        @Override
-                                        public void onColorChosen(@ColorInt int color) {
-                                            // Do whatever you want
-                                            // Examples
-                                            point.setIntR(cp.getRed());
-                                            point.setIntG(cp.getGreen());
-                                            point.setIntB(cp.getBlue());
-                                            cp.dismiss();
-
-                                                dots.changeColor();
-
-                                        }
-                                    });
-                                }
-                            }
-
-                        });
-                        builder.show();
-
-                        break;
-                    }
-
-                }
-            }
-
-            if (check){
-                Random random = new Random();
-
-                intR = random.nextInt(255);
-                intG = random.nextInt(255);
-                intB = random.nextInt(255);
-
-                Dot dot = new Dot(CenterX, CenterY, 50, intR, intG, intB);
-                dots.addDot(dot);
-            }
-
-        }
-        return super.onTouchEvent(event);
-    }
-
-    public void onRandomDot(View view) {
+   /* public void onRandomDot(View view) {
         Random random = new Random();
-        int CenterX = random.nextInt(this.dotview.getWidth());
-        int CenterY = random.nextInt(this.dotview.getHeight());
+        int CenterX = random.nextInt(findViewById(R.id.FragContainer).getWidth());
+        int CenterY = random.nextInt(findViewById(R.id.FragContainer).getHeight());
         intR = random.nextInt(255);
         intG = random.nextInt(255);
         intB = random.nextInt(255);
 
         dots.addDot(new Dot(CenterX, CenterY, 50, intR, intG, intB));
-    }
+    }*/
 
 
-    @Override
-    public void onClick(View v) {
-        dots.clearDot();
-        dotview.invalidate();
-    }
 
-    public boolean dotRangeCheck(Dot dot, int x, int y){
-        double dis2P = Math.pow(Math.pow( (dot.getCenterX()- x) , 2 ) + Math.pow( (dot.getCenterY() - y) , 2) , 0.5);
-        if(dot != null){
-            if (dis2P<=dot.getRadius()) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    @Override
-    public void onDotsChange(Dots dots) {
-        dotview.setDots(dots);
-        dotview.invalidate();
-    }
+
+
+
 
     public boolean requestWriteExternalStoragePermission() {
 
