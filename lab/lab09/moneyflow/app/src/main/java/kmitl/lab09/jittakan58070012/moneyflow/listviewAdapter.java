@@ -20,10 +20,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-/**
- *
- * @author Paresh N. Mayani
- */
 public class listviewAdapter extends BaseAdapter
 {
     public ArrayList<HashMap> list;

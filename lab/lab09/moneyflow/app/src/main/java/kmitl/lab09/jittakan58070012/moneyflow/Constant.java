@@ -16,7 +16,7 @@ public class Constant {
     public static final String THIRD_COLUMN = "Third";
     public static String ADD_STATE = "";
 
-    public static int Firstopen = 1;
+    public static int Checkedit = 0;
     public static Activity activity;
 
 }

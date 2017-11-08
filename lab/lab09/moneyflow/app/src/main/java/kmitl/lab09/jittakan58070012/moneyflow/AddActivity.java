@@ -22,23 +22,48 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private Button Save_bt;
     private EditText item;
     private EditText amount;
+    private int position;
+    private int SQL_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addpage);
+
         Constant.ADD_STATE = "Income";
        Save_bt = findViewById(R.id.Save);
        item = findViewById(R.id.Items_add);
        amount = findViewById(R.id.Add_Amount);
        Save_bt.setOnClickListener(this);
+
+       Intent intent = getIntent();
+        position = intent.getIntExtra("position",0);
+        Log.d("addcheckposition", String.valueOf(position));
+
+        if (Constant.Checkedit == 1){
+            new AsyncTask<Void, Void, List<UsesInfo>>() {
+                @Override
+                protected List<UsesInfo> doInBackground(Void... voids) {
+                    List<UsesInfo> result = MainActivity.moneyInfoDB.usesInfoDAO().allItem();
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(List<UsesInfo> usesInfos) {
+                    item.setText(usesInfos.get(position).getItem());
+                    amount.setText(String.valueOf(usesInfos.get(position).getAmount()));
+                    SQL_ID = usesInfos.get(position).getId();
+                    Log.d("check ID", "onPostExecute: " + usesInfos.get(position).getId());
+                }
+            }.execute();
+
+        }
+
+
         final SingleSelectToggleGroup single = (SingleSelectToggleGroup) findViewById(R.id.group_choices);
         single.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
-//                Log.d("OP","onCheckedChanged(): checkedId = " + checkedId);
-//                Log.d("OP","onCheckedChanged(): groupgetId = " + group.getCheckedId());
-//                Log.d("OP","onCheckedChanged(): checkedId = " + R.id.choice_a);
                 if (group.getCheckedId() == R.id.choice_a) {
                     //Income
                     Constant.ADD_STATE = "Income";
@@ -58,23 +83,42 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View view) {
         if (view.getId() == R.id.Save) {
 
-            final UsesInfo usesInfo = new UsesInfo();
-            usesInfo.setItem(item.getText().toString());
-            usesInfo.setAmount(Integer.valueOf(amount.getText().toString()));
-            usesInfo.setType(Constant.ADD_STATE);
+            if (Constant.Checkedit == 1){
+                new AsyncTask<Void, Void, List<UsesInfo>>() {
+                    @Override
+                    protected List<UsesInfo> doInBackground(Void... voids) {
+                        List<UsesInfo> result = MainActivity.moneyInfoDB.usesInfoDAO().allItem();
+                        return result;
+                    }
 
-            new AsyncTask<Void, Void, List<UsesInfo>>() {
-                @Override
-                protected List<UsesInfo> doInBackground(Void... voids) {
-                    List<UsesInfo> result = MainActivity.moneyInfoDB.usesInfoDAO().allItem();
-                    return result;
-                }
+                    @Override
+                    protected void onPostExecute(List<UsesInfo> usesInfos) {
+                        MainActivity.moneyInfoDB.usesInfoDAO().UpdateColumn(Constant.ADD_STATE,
+                                item.getText().toString(),
+                                Integer.valueOf(amount.getText().toString()), SQL_ID);
+                    }
+                }.execute();
 
-                @Override
-                protected void onPostExecute(List<UsesInfo> usesInfos) {
-                    MainActivity.moneyInfoDB.usesInfoDAO().Insert(usesInfo);
-                }
-            }.execute();
+            }else{
+                final UsesInfo usesInfo = new UsesInfo();
+                usesInfo.setItem(item.getText().toString());
+                usesInfo.setAmount(Integer.valueOf(amount.getText().toString()));
+                usesInfo.setType(Constant.ADD_STATE);
+                new AsyncTask<Void, Void, List<UsesInfo>>() {
+                    @Override
+                    protected List<UsesInfo> doInBackground(Void... voids) {
+                        List<UsesInfo> result = MainActivity.moneyInfoDB.usesInfoDAO().allItem();
+                        return result;
+                    }
+
+                    @Override
+                    protected void onPostExecute(List<UsesInfo> usesInfos) {
+                        MainActivity.moneyInfoDB.usesInfoDAO().Insert(usesInfo);
+                    }
+                }.execute();
+            }
+
+
 
 
 
