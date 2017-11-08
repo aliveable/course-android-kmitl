@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     ChangeColor(Constant.keep_income, allamount);
 
-                    amountTV.setText(String.valueOf(allamount));
+                    amountTV.setText("Money :" + String.valueOf(allamount));
                 }
 
                 @Override
