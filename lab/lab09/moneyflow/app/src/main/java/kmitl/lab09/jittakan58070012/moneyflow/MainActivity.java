@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 @Override
                                 protected void onPostExecute(List<UsesInfo> usesInfos) {
-                                    moneyInfoDB.usesInfoDAO().deletecolumn(usesInfos.get(position-1).getItem());
+                                    moneyInfoDB.usesInfoDAO().deletecolumn(usesInfos.get(position-1).getId());
                                     reload();
                                 }
 
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     ChangeColor(Constant.keep_income, allamount);
 
-                    amountTV.setText("Money :" + String.valueOf(allamount));
+                    amountTV.setText("Money :" + String.valueOf(allamount) + " ฿");
                 }
 
                 @Override

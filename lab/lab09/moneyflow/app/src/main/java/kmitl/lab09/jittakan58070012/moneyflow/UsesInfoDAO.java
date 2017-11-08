@@ -18,8 +18,8 @@ interface UsesInfoDAO {
     @Query("SELECT * FROM USES_INFO")
     List<UsesInfo> allItem();
 
-    @Query("DELETE FROM USES_INFO WHERE Item like :delete")
-    int deletecolumn(String delete);
+    @Query("DELETE FROM USES_INFO WHERE id like :delete")
+    int deletecolumn(int delete);
 
     @Query("UPDATE USES_INFO SET Type = :type,Item = :item ,Amount = :amount WHERE id =:ids")
     int UpdateColumn(String type, String item, int amount, int ids);

@@ -37,6 +37,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
        Save_bt.setOnClickListener(this);
 
        Intent intent = getIntent();
+
         position = intent.getIntExtra("position",0);
         Log.d("addcheckposition", String.valueOf(position));
 
@@ -52,7 +53,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 protected void onPostExecute(List<UsesInfo> usesInfos) {
                     item.setText(usesInfos.get(position).getItem());
                     amount.setText(String.valueOf(usesInfos.get(position).getAmount()));
+
                     SQL_ID = usesInfos.get(position).getId();
+
                     Log.d("check ID", "onPostExecute: " + usesInfos.get(position).getId());
                 }
             }.execute();
