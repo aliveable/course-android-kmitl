@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void ChangeColor(int allmoneyincome, int moneyleft) {
-        if (allmoneyincome == 0 && moneyleft == 0){
+        if (allmoneyincome <= 0 && moneyleft <= 0){
             amountTV.setTextColor(Color.parseColor("#db1a1a"));
         }else{
             int percent;

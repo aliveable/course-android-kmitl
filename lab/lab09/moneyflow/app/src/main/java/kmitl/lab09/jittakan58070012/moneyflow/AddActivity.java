@@ -122,7 +122,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             }
 
 
-
+            Constant.Checkedit = 0;
 
 
         }
