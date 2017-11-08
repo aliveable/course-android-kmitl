@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -30,11 +32,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<HashMap> list;
     public static moneyInfoDB moneyInfoDB;
     private AlertDialog.Builder builderSingle;
+    private int allamount = 0;
+    private TextView amountTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        amountTV = findViewById(R.id.amountTextView);
         builderSingle = new AlertDialog.Builder(this);
         builderSingle.setTitle("Select One Name:-");
 
@@ -51,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         moneyInfoDB = Room.databaseBuilder(this, moneyInfoDB.class, "USES_DB").allowMainThreadQueries().build();
         ListView lview = (ListView) findViewById(R.id.listview);
+        Constant.keep_income = 0;
         populateList();
+
         listviewAdapter adapter = new listviewAdapter(this, list);
         lview.setAdapter(adapter);
         Constant.activity = this;
@@ -142,19 +148,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         HashMap temp = new HashMap();
                         if (items.getType().equals("Income")) {
                             temp.put(FIRST_COLUMN, "+");
+                            Constant.keep_income += Integer.valueOf(items.getAmount());
+                            allamount += Integer.valueOf(items.getAmount());
+
                         }else{
                             temp.put(FIRST_COLUMN, "-");
+                            allamount -= Integer.valueOf(items.getAmount());
                         }
                         temp.put(SECOND_COLUMN, items.getItem());
                         temp.put(THIRD_COLUMN, items.getAmount());
                         list.add(temp);
+
+
                     }
+                    ChangeColor(Constant.keep_income, allamount);
+
+                    amountTV.setText(String.valueOf(allamount));
                 }
 
                 @Override
                 protected void onProgressUpdate(Void... values) {
                 }
             }.execute();
+
+    }
+
+    private void ChangeColor(int allmoneyincome, int moneyleft) {
+        if (allmoneyincome == 0 && moneyleft == 0){
+            amountTV.setTextColor(Color.parseColor("#db1a1a"));
+        }else{
+            int percent;
+
+            percent = (moneyleft*100/allmoneyincome);
+
+            //Log.d("CheckPercent", "allmoneyIncome"+String.valueOf(allmoneyincome)+"moneyleft"+String.valueOf(moneyleft)+"Percrnt: "+String.valueOf(percent));
+
+            if (percent > 50){
+                amountTV.setTextColor(Color.parseColor("#00B800"));
+
+            }else if (percent >= 25 && percent <= 50){
+                amountTV.setTextColor(Color.parseColor("#ffdb00"));
+            }else if(percent < 25){
+                amountTV.setTextColor(Color.parseColor("#db1a1a"));
+            }
+        }
 
     }
 
