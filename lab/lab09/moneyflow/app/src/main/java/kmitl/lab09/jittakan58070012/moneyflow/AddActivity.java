@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import android.widget.Button;
@@ -24,6 +25,20 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private EditText amount;
     private int position;
     private int SQL_ID;
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Constant.Checkedit = 0;
+            Intent intent = new Intent(this, MainActivity.class);
+            Constant.activity.finish();
+            startActivity(intent);
+            finish();
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +74,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                     Log.d("check ID", "onPostExecute: " + usesInfos.get(position).getId());
                 }
             }.execute();
+
+
 
         }
 
